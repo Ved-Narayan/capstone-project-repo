@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery - CourierTrack</title>
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+	<div class="app-container">
+
+		
+		<aside class="sidebar">
+
+			<div class="sidebar-header">
+				<div class="logo-mini">
+					<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+							stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+				</div>
+				<h2>CourierTrack</h2>
+			</div>
+
+			<nav class="nav-menu">
+				<a href="dashboard.html" class="nav-item">📊 Dashboard</a> <a
+					href="shipments.html" class="nav-item">📦 Shipments</a> <a
+					href="tracking.html" class="nav-item">📍 Tracking</a> <a
+					href="parcels.html" class="nav-item">📫 Parcels</a> <a
+					href="delivery.html" class="nav-item active">🚚 Delivery</a> <a
+					href="customers.html" class="nav-item">👥 Customers</a>
+			</nav>
+			<div class="sidebar-footer">
+				<button class="btn-logout" onclick="logout()">Logout</button>
+			</div>
+
+		</aside>
+
+		
+		<main class="main-content">
+
+			<div class="content-wrapper">
+
+				
+				<div class="page-header">
+					<h1>Deliveries</h1>
+					<button class="btn-primary" onclick="openDeliveryModal()">
+						➕ Add Delivery</button>
+				</div>
+
+				
+				<div class="card">
+
+					<table class="table">
+
+						<thead>
+							<tr>
+								<th>Delivery ID</th>
+								<th>Date</th>
+								<th>Receiver</th>
+
+							</tr>
+						</thead>
+
+						
+						<tbody id="deliveryTable">
+
+							<tr>
+								<td colspan="6" style="text-align: center; padding: 20px;">
+									Loading deliveries...</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+
+				</div>
+
+			</div>
+
+		</main>
+
+	</div>
+
+	<div id="deliveryModal" class="modal">
+
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h2>🚚 Add Delivery</h2>
+				<button class="btn-close" onclick="closeDeliveryModal()">✕</button>
+			</div>
+
+			<form id="deliveryForm" class="modal-form">
+
+				<input id="deliveredDate" type="date" required> <input
+					id="receivedBy" type="text" placeholder="Received By" required>
+
+				<input id="shipmentId" type="number" placeholder="Shipment ID"
+					required>
+
+				<button type="submit" class="btn-primary full-btn">Create
+					Delivery</button>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	
+	<script src="/frontend/js/api.js"></script>
+	<script src="/frontend/js/delivery.js"></script>
+	<script src="js/auth.js"></script>
+
+</body>
+</html>

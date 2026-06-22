@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracking - CourierTrack</title>
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+            <div class="logo-mini">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h2>CourierTrack</h2>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="shipments.html" class="nav-item">📦 Shipments</a>
+            <a href="tracking.html" class="nav-item active">📍 Tracking</a>
+            <a href="parcels.html" class="nav-item">📫 Parcels</a>
+            <a href="delivery.html" class="nav-item">🚚 Delivery</a>
+            <a href="customers.html" class="nav-item">👥 Customers</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+
+    </aside>
+
+    
+    <main class="main-content">
+
+        <div class="content-wrapper">
+
+            
+            <div class="page-header">
+                <h1>Track Shipment</h1>
+                <button class="btn-primary" onclick="openTrackingModal()">
+                    ➕ Add Tracking
+                </button>
+            </div>
+
+            
+            <div class="card">
+
+                <div class="search-section">
+                    <input type="text" id="trackingInput" class="search-box"
+                        placeholder="Enter tracking number">
+
+                    <button class="btn-primary" onclick="searchTracking()">
+                        Search
+                    </button>
+                </div>
+
+            </div>
+
+            
+            <div id="trackingResult" class="card" style="display: none;">
+
+                <div class="card-header">
+                    <h2>Tracking Details</h2>
+                </div>
+
+                <div class="tracking-info">
+
+                    <div class="info-row">
+                        <span class="info-label">Tracking Number:</span>
+                        <span id="trackNum"></span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Status:</span>
+                        <span id="trackStatus"></span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Destination:</span>
+                        <span id="trackDest"></span>
+                    </div>
+
+                </div>
+
+                <div id="trackingTimeline" class="timeline">
+                    <div style="text-align: center; padding: 20px;">
+                        Enter tracking ID to view shipment progress
+                    </div>
+                </div>
+
+            </div>
+
+            
+            <div class="card">
+
+                <h3>📍 All Tracking Records</h3>
+                <br>
+
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tracking Number</th>
+                            <th>Status</th>
+                            <th>Timestamp</th>
+                            <th>Shipment ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="trackingTable">
+                        <tr>
+                            <td colspan="6" style="text-align:center;">
+                                Loading tracking data...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div id="trackingModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>📍 Add Tracking</h2>
+            <button class="btn-close" onclick="closeTrackingModal()">✕</button>
+        </div>
+
+        <form id="trackingForm" class="modal-form">
+
+            <input id="status" type="text"
+                placeholder="Status (BOOKED / IN_TRANSIT / DELIVERED)" required>
+
+            <input id="timestamp" type="datetime-local" required>
+
+            <input id="shipmentId" type="number" placeholder="Shipment ID" required>
+
+            <button type="submit" class="btn-primary full-btn">
+                Create Tracking
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    setupTrackingForm();
+});
+
+function openTrackingModal() {
+    document.getElementById("trackingModal").style.display = "flex";
+}
+
+function closeTrackingModal() {
+    document.getElementById("trackingModal").style.display = "none";
+}
+
+function setupTrackingForm() {
+
+    const form = document.getElementById("trackingForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            status: document.getElementById("status").value,
+            timestamp: document.getElementById("timestamp").value,
+            shipmentId: document.getElementById("shipmentId").value
+        };
+
+        await fetch(BASE_URL + "/trackings/addTracking", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        closeTrackingModal();
+        form.reset();
+    });
+}
+
+</script>
+
+<script src="/frontend/js/api.js"></script>
+<script src="/frontend/js/tracking.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

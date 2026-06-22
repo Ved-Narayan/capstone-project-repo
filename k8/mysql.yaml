@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: courier-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: courier-mysql
+  template:
+    metadata:
+      labels:
+        app: courier-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: courier-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: MYSQL_DATABASE
+              value: courier_db
+
+          startupProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 60
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 120
+            periodSeconds: 15
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: courier-mysql
+spec:
+  selector:
+    app: courier-mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+  clusterIP: None

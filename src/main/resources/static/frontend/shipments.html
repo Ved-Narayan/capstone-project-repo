@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shipments - CourierTrack</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+	<div class="app-container">
+
+		
+		<aside class="sidebar">
+			<div class="sidebar-header">
+				<h2>CourierTrack</h2>
+			</div>
+
+			<nav class="nav-menu">
+				<a href="dashboard.html" class="nav-item">📊 Dashboard</a> <a
+					href="shipments.html" class="nav-item active">📦 Shipments</a> <a
+					href="tracking.html" class="nav-item">📍 Tracking</a> <a
+					href="parcels.html" class="nav-item">📫 Parcels</a> <a
+					href="delivery.html" class="nav-item">🚚 Delivery</a> <a
+					href="customers.html" class="nav-item">👥 Customers</a>
+			</nav>
+			<div class="sidebar-footer">
+				<button class="btn-logout" onclick="logout()">Logout</button>
+			</div>
+
+		</aside>
+
+		
+		<main class="main-content">
+
+			<div class="content-wrapper">
+
+				<!-- HEADER -->
+				<div class="page-header">
+					<h1>Shipments</h1>
+
+					<button class="btn-primary" onclick="openModal()">➕ Add
+						Shipment</button>
+				</div>
+
+				
+				<div class="card">
+
+					<table class="table">
+
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Parcel ID</th>
+								<th>Status</th>
+								<th>Expected Delivery</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+
+						<tbody id="shipmentsTable">
+							<tr>
+								<td colspan="5" style="text-align: center;">Loading
+									shipments...</td>
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+
+			</div>
+
+		</main>
+
+	</div>
+
+	
+	<div id="shipmentModal" class="modal">
+
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h2>🚚 Add Shipment</h2>
+				<button class="btn-close" onclick="closeModal()">✕</button>
+			</div>
+
+			<form id="shipmentForm" class="modal-form">
+
+				<input id="parcelId" type="number" placeholder="Parcel ID" required>
+
+				<input id="expectedDelivery" type="date" required>
+
+				<button type="submit" class="btn-primary full-btn">Create
+					Shipment</button>
+
+			</form>
+
+
+		</div>
+
+	</div>
+
+	 
+	<script src="js/api.js"></script>
+	<script src="js/shipments.js"></script>
+	<script src="js/auth.js"></script>
+
+</body>
+</html>

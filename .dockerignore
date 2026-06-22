@@ -1,0 +1,13 @@
+target/
+bin/
+.git/
+.gitattributes
+.gitignore
+.classpath
+.project
+.settings/
+*.md
+Jenkinsfile
+k8/
+HELP.md
+.mvn/wrapper/maven-wrapper.jar

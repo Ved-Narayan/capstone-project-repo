@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - CourierTrack</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+   
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+            <div class="logo-mini">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h2>CourierTrack</h2>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="shipments.html" class="nav-item">📦 Shipments</a>
+            <a href="tracking.html" class="nav-item">📍 Tracking</a>
+            <a href="parcels.html" class="nav-item">📫 Parcels</a>
+            <a href="delivery.html" class="nav-item">🚚 Delivery</a>
+            <a href="customers.html" class="nav-item active">👥 Customers</a>
+        </nav>
+
+      
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+
+    </aside>
+
+    
+    <main class="main-content">
+
+        <div class="content-wrapper">
+
+            
+            <div class="page-header">
+
+                <div>
+                    <h1>Customers</h1>
+                    <p class="subtitle">Manage your customer database.</p>
+                </div>
+
+                <button class="btn-primary" onclick="openCustomerModal()">
+                    + Add Customer
+                </button>
+
+            </div>
+
+            
+            <div class="card">
+
+                <input type="text"
+                       id="searchCustomers"
+                       class="search-box"
+                       placeholder="Search customers...">
+
+               
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="customersTable">
+                        <tr>
+                            <td colspan="6" style="text-align:center;">Loading...</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<div id="customerModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>➕ Add Customer</h2>
+            <button class="btn-close" onclick="closeCustomerModal()">✕</button>
+        </div>
+
+        <form id="customerForm" class="modal-form">
+
+            <input type="text" id="customerName" placeholder="Full Name" required>
+            <input type="email" id="customerEmail" placeholder="Email" required>
+            <input type="text" id="customerPhone" placeholder="Phone" required>
+            
+            <input type="text" id="customerLocation" placeholder="Address" required>
+
+            <button type="submit" class="btn-primary full-btn">
+                Save Customer
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<div id="updateCustomerModal" class="modal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>Update Customer</h2>
+            <button onclick="closeUpdateCustomerModal()">✕</button>
+        </div>
+
+        <form id="updateCustomerForm">
+            <input type="text" id="updateCustomerName">
+            <input type="email" id="updateCustomerEmail">
+            <input type="text" id="updateCustomerPhone">
+            <input type="text" id="updateCustomerLocation">
+            <button type="submit">Update</button>
+        </form>
+
+    </div>
+</div>
+
+
+
+<div id="parcelModal" class="modal">
+
+    <div class="modal-content parcel-modal">
+
+        <!-- HEADER -->
+        <div class="modal-header parcel-header">
+
+            <h2>📦 Customer Parcels</h2>
+
+            <button class="close-btn" onclick="closeParcelModal()">×</button>
+
+        </div>
+
+        <!-- TABLE -->
+        <div class="card parcel-card">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Parcel ID</th>
+                        <th>Weight</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>From → To</th>
+                    </tr>
+                </thead>
+
+                <tbody id="parcelTable">
+                    <tr>
+                        <td colspan="5" style="text-align:center; padding:20px;">
+                            Click customer to view parcels
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="/frontend/js/api.js"></script>
+<script src="/frontend/js/customers.js"></script>
+<script src="js/auth.js"></script>
+
+</body>
+</html>

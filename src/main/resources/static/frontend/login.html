@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Login - QuickShip Courier</title>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--primary-dark: #0f172a;
+	--primary: #1e293b;
+	--accent-blue: #3b82f6;
+	--accent-blue-dark: #1d4ed8;
+	--text-dark: #1f2937;
+	--text-light: #6b7280;
+	--border-light: #e5e7eb;
+	--bg-light: #f9fafb;
+	--white: #ffffff;
+	--error: #dc2626;
+	--success: #10b981;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+		'Helvetica Neue', sans-serif;
+	background: linear-gradient(135deg, var(--bg-light) 0%, var(--white)
+		100%);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.login-container {
+	width: 100%;
+	max-width: 420px;
+}
+
+.back-link {
+	margin-bottom: 2rem;
+}
+
+.back-link a {
+	color: var(--accent-blue);
+	text-decoration: none;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	transition: all 0.3s ease;
+	font-size: 0.95rem;
+}
+
+.back-link a:hover {
+	color: var(--accent-blue-dark);
+	gap: 1rem;
+}
+
+.login-box {
+	background: var(--white);
+	border-radius: 12px;
+	border: 2px solid var(--accent-blue);
+	box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+	padding: 2.5rem;
+	animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {from { opacity:0;
+	transform: translateY(30px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+.logo-section {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.logo-section h1 {
+	color: var(--accent-blue);
+	font-size: 1.8rem;
+	margin-bottom: 0.5rem;
+	font-weight: 800;
+}
+
+.logo-section p {
+	color: var(--text-light);
+	font-size: 0.95rem;
+}
+
+.form-group {
+	margin-bottom: 1.5rem;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 0.6rem;
+	color: var(--text-dark);
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.form-group input {
+	width: 100%;
+	padding: 0.9rem 1rem;
+	border: 1px solid var(--border-light);
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	font-family: inherit;
+	background: var(--white);
+}
+
+.form-group input::placeholder {
+	color: #d1d5db;
+}
+
+.form-group input:focus {
+	outline: none;
+	border-color: var(--accent-blue);
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input.error {
+	border-color: var(--error);
+	background-color: rgba(220, 38, 38, 0.05);
+}
+
+.error-message {
+	color: var(--error);
+	font-size: 0.85rem;
+	display: none;
+	margin-top: 0.3rem;
+}
+
+.error-message.show {
+	display: block;
+}
+
+.remember-forgot {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2rem;
+	font-size: 0.9rem;
+}
+
+.remember-forgot label {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	font-weight: 500;
+	cursor: pointer;
+	color: var(--text-dark);
+}
+
+.remember-forgot input[type="checkbox"] {
+	margin-right: 0.5rem;
+	cursor: pointer;
+	width: 18px;
+	height: 18px;
+	accent-color: var(--accent-blue);
+}
+
+.remember-forgot a {
+	color: var(--accent-blue);
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 0.3s ease;
+}
+
+.remember-forgot a:hover {
+	color: var(--accent-blue-dark);
+}
+
+.login-btn {
+	width: 100%;
+	padding: 1rem;
+	background: var(--accent-blue);
+	color: var(--white);
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	margin-bottom: 1rem;
+	box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.login-btn:hover {
+	background: var(--accent-blue-dark);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.login-btn:active {
+	transform: translateY(0);
+}
+
+.login-btn.loading {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.divider {
+	display: flex;
+	align-items: center;
+	margin: 2rem 0;
+}
+
+.divider::before, .divider::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: var(--border-light);
+}
+
+.divider span {
+	margin: 0 1rem;
+	font-size: 0.85rem;
+	color: var(--text-light);
+	font-weight: 500;
+}
+
+.admin-section {
+	background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%,
+		rgba(59, 130, 246, 0.02) 100%);
+	border: 1px solid var(--border-light);
+	border-radius: 10px;
+	padding: 1.5rem;
+	text-align: center;
+}
+
+.admin-section h3 {
+	font-size: 1.05rem;
+	color: var(--text-dark);
+	margin-bottom: 0.5rem;
+	font-weight: 700;
+}
+
+.admin-section p {
+	font-size: 0.9rem;
+	color: var(--text-light);
+	margin-bottom: 1.2rem;
+	line-height: 1.5;
+}
+
+.admin-btn {
+	display: inline-block;
+	width: 100%;
+	padding: 0.95rem;
+	background: var(--white);
+	color: var(--accent-blue);
+	border: 2px solid var(--accent-blue);
+	border-radius: 8px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.admin-btn:hover {
+	background: rgba(59, 130, 246, 0.05);
+	transform: translateY(-2px);
+}
+
+.signup-link {
+	text-align: center;
+	margin-top: 1.5rem;
+	color: var(--text-light);
+	font-size: 0.9rem;
+}
+
+.signup-link a {
+	color: var(--accent-blue);
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 0.3s ease;
+}
+
+.signup-link a:hover {
+	color: var(--accent-blue-dark);
+}
+
+.success-message {
+	background: rgba(16, 185, 129, 0.1);
+	border: 1px solid var(--success);
+	color: var(--success);
+	padding: 0.8rem;
+	border-radius: 6px;
+	display: none;
+	margin-bottom: 1.5rem;
+	text-align: center;
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+
+.success-message.show {
+	display: block;
+	animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {from { opacity:0;
+	transform: translateY(-10px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+@media ( max-width : 480px) {
+	.login-box {
+		padding: 2rem;
+	}
+	.logo-section h1 {
+		font-size: 1.5rem;
+	}
+	.remember-forgot {
+		flex-direction: column;
+		gap: 0.8rem;
+		align-items: flex-start;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="login-container">
+		<div class="back-link">
+			<a href="index.html">← Back to Home</a>
+		</div>
+
+		<div class="login-box">
+			<div class="logo-section">
+				<h1>QuickShip</h1>
+				<p>User Login</p>
+			</div>
+
+			<div class="success-message" id="successMessage">✓ Login
+				successful! Redirecting...</div>
+
+			<form id="loginForm">
+
+				<div class="form-group">
+					<label for="phone">Phone Number</label> <input type="text"
+						id="phone" name="phone" placeholder="Enter your phone number"
+						required>
+					<div class="error-message" id="phoneError"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="parcelId">Parcel ID (Password)</label> <input
+						type="text" id="parcelId" name="parcelId"
+						placeholder="Enter your parcel ID" required>
+					<div class="error-message" id="parcelError"></div>
+				</div>
+
+				<button type="submit" class="login-btn" id="loginBtn">
+					Track My Parcel</button>
+
+			</form>
+
+			<div class="divider"></div>
+
+			<div class="admin-section">
+				<h3>Are you an Admin?</h3>
+				<p>Access the admin dashboard to manage shipments and system
+					analytics</p>
+				<a href="adminlog.html" class="admin-btn">Admin Login</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+const phoneInput = document.getElementById("phone");
+const parcelInput = document.getElementById("parcelId");
+const loginForm = document.getElementById("loginForm");
+const loginBtn = document.getElementById("loginBtn");
+
+
+
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    handleLogin();
+});
+
+
+
+function validateForm() {
+
+    let valid = true;
+
+    clearError("phone");
+    clearError("parcel");
+
+    if (!phoneInput.value.trim()) {
+        showError("phone", "Phone number is required");
+        valid = false;
+    }
+
+    if (!parcelInput.value.trim()) {
+        showError("parcel", "Parcel ID is required");
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+function showError(field, message) {
+
+    const errorElement =
+        document.getElementById(field + "Error");
+
+    const inputElement =
+        document.getElementById(field);
+
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.add("show");
+    }
+
+    if (inputElement) {
+        inputElement.classList.add("error");
+    }
+}
+
+
+
+function clearError(field) {
+
+    const errorElement =
+        document.getElementById(field + "Error");
+
+    const inputElement =
+        document.getElementById(field);
+
+    if (errorElement) {
+        errorElement.textContent = "";
+        errorElement.classList.remove("show");
+    }
+
+    if (inputElement) {
+        inputElement.classList.remove("error");
+    }
+}
+
+
+
+phoneInput.addEventListener("input", () => {
+    clearError("phone");
+});
+
+parcelInput.addEventListener("input", () => {
+    clearError("parcel");
+});
+
+
+
+async function handleLogin() {
+
+    if (!validateForm()) return;
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Checking...";
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:8089/api/parcels/customer/login?phone=${phoneInput.value}&parcelId=${parcelInput.value}`
+        );
+
+        if (!response.ok) {
+
+            showError(
+                "parcel",
+                "Invalid Phone Number or Parcel ID"
+            );
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Track My Parcel";
+
+            return;
+        }
+
+        const customerData =
+            await response.json();
+
+        
+        localStorage.setItem(
+            "customerData",
+            JSON.stringify(customerData)
+        );
+
+        localStorage.setItem(
+            "customerPhone",
+            phoneInput.value
+        );
+
+        localStorage.setItem(
+            "parcelId",
+            parcelInput.value
+        );
+
+        const successMessage =
+            document.getElementById("successMessage");
+
+        if (successMessage) {
+            successMessage.classList.add("show");
+        }
+
+        setTimeout(() => {
+
+            window.location.href =
+                "customer-dashboard.html";
+
+        }, 1000);
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        showError(
+            "parcel",
+            "Server error. Please try again."
+        );
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Track My Parcel";
+    }
+}
+
+</script>
+</body>
+</html>
