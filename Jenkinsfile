@@ -8,12 +8,12 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = 'courier-backend:latest'
-        DOCKER_REGISTRY = ''
         K8S_DEPLOYMENT = 'courier-backend'
         K8S_NAMESPACE = 'default'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -22,32 +22,25 @@ pipeline {
 
         stage('Build with Maven') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                bat 'mvn test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                bat 'docker build -t %DOCKER_IMAGE% .'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    sh 'kubectl set image deployment/$K8S_DEPLOYMENT backend=$DOCKER_IMAGE --namespace=$K8S_NAMESPACE --record'
-                }
+                bat 'kubectl set image deployment/%K8S_DEPLOYMENT% backend=%DOCKER_IMAGE% --namespace=%K8S_NAMESPACE%'
             }
         }
     }
